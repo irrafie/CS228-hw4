@@ -2,8 +2,12 @@ package edu.iastate.cs228.hw4;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Random;
 
 /**
+ *
+ * @author	Irfan Farhan Mohamad Rafie
+ *
  * This class sorts an array of Point objects using a provided Comparator.  For the purpose
  * you may adapt your implementation of quicksort from Project 2.  
  */
@@ -20,7 +24,7 @@ public class QuickSortPoints
 	 */
 	QuickSortPoints(Point[] pts)
 	{
-		// ToDo 
+		points = pts;
 	}
 	
 	
@@ -31,7 +35,7 @@ public class QuickSortPoints
 	 */
 	void getSortedPoints(Point[] pts)
 	{
-		// ToDo 
+		pts = points;
 	}
 
 	
@@ -42,20 +46,33 @@ public class QuickSortPoints
 	 */
 	public void quickSort(Comparator<Point> comp)
 	{
-		// TODO 
+		try{
+			quickSortRec(0, points.length, comp);
+		}
+		catch (NullPointerException e){
+			e.printStackTrace();
+		}
 	}
 	
 	
 	/**
 	 * Operates on the subarray of points[] with indices between first and last. 
 	 * 
-	 * @param first  starting index of the subarray
-	 * @param last   ending index of the subarray
+	 * @param first  firsting index of the subarray
+	 * @param last   last
+	 *                 ing index of the subarray
 	 */
 	private void quickSortRec(int first, int last, Comparator<Point> comp)
 	{
-		// TODO 
-	}
+		int index = partition(first,last, comp);
+
+		if(first < index -1){
+			quickSortRec(first, index - 1, comp);
+		}
+
+		if(last > index){
+			quickSortRec(index, last, comp);
+		}	}
 	
 
 	/**
@@ -67,8 +84,30 @@ public class QuickSortPoints
 	 */
 	private int partition(int first, int last, Comparator<Point> comp)
 	{
-		return 0; 
-		// TODO
+		Random rand = new Random(100);
+		int mid = rand.nextInt(last);
+		Point pivot = points[first];
+
+		while(first <= last){
+			while(comp.compare(points[first], pivot) < 0){
+				first++;
+			}
+
+			while(comp.compare(points[last], pivot) > 0){
+				last--;
+			}
+
+			if(first <= last){
+				Point temp;
+				temp = points[first];
+				points[last] = points[first];
+				points[first] = temp;
+				first++;
+				last--;
+			}
+		}
+
+		return first;
 	}
 }
 
