@@ -7,7 +7,6 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.Comparator;
-import java.lang.Math;
 
 /**
  * 

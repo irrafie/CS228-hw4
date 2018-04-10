@@ -86,7 +86,10 @@ public abstract class ConvexHull
 	 */
 	public ConvexHull(Point[] pts) throws IllegalArgumentException 
 	{
-		// TODO 
+		this.points = pts;
+		quicksorter = new QuickSortPoints(this.points);
+		removeDuplicates();
+		// TODO
 	}
 	
 	
@@ -218,6 +221,9 @@ public abstract class ConvexHull
 	 */
 	public void removeDuplicates()
 	{
+		Point refx = new Point(0, 0);
+		PolarAngleComparator comp = new PolarAngleComparator(refx, false);
+		quicksorter.quickSort(comp);
 		// TODO 
 	}
 }
