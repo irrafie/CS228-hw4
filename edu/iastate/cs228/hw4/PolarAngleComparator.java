@@ -2,11 +2,12 @@ package edu.iastate.cs228.hw4;
 
 /**
  *  
- * @author
+ * @author	Irfan Farhan Mohamad Rafie
  *
  */
 
 import java.util.Comparator;
+import java.Math;
 
 /**
  * 
@@ -50,7 +51,23 @@ public class PolarAngleComparator implements Comparator<Point>
 	 */
 	public int compare(Point p1, Point p2)
 	{
-		// TODO
+
+		if(p1.compareTo(p2) == 0){
+			return 0;
+		}
+		Point a = new Point(p1.getX() - referencePoint.getX(), p1.getY() - referencePoint.getY());
+		Point b = new Point(p2.getX() - referencePoint.getX(), p2.getY() - referencePoint.getY());
+
+		else if(crossProduct(a,b) > 0){
+			return -1;
+		}
+
+		else if(crossProduct(a,b) == 0 && flag == true && )
+
+		else{
+			return 1;
+		}
+		//TODO
 		return 0; 
 	}
 	    
@@ -78,4 +95,21 @@ public class PolarAngleComparator implements Comparator<Point>
     	// TODO 
     	return 0; 
     }
+
+    private int closer(Point p1, Point p2){
+    	double dist1 = Math.sqrt((p1.getX() - referencePoint.getX())*(p1.getX() - referencePoint.getX())+(p1.getY() - referencePoint.getY())*referencePoint.getX())+(p1.getY() - referencePoint.getY()));
+		double dist2 = Math.sqrt((p2.getX() - referencePoint.getX())*(p2.getX() - referencePoint.getX())+(p2.getY() - referencePoint.getY())*referencePoint.getX())+(p2.getY() - referencePoint.getY()));
+
+		if(dist1 > dist2){
+			return 1;
+		}
+
+		else if(dist2 > dist1){
+			return -1;
+		}
+
+		else {
+			return 0;
+		}
+	}
 }
