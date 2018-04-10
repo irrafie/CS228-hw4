@@ -58,7 +58,7 @@ public class CompareHullAlgorithms
 	
 	/**
 	 * This method generates a given number of random points.  The coordinates of these points are 
-	 * pseudo-random numbers within the range [-50,50] × [-50,50]. 
+	 * pseudo-random numbers within the range [-50,50]  [-50,50].
 	 * 
 	 * @param numPts  	number of points
 	 * @param rand      Random object to allow seeding of the random number generator

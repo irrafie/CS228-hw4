@@ -7,7 +7,7 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.util.Comparator;
-import java.Math;
+import java.lang.Math;
 
 /**
  * 
@@ -55,20 +55,22 @@ public class PolarAngleComparator implements Comparator<Point>
 		if(p1.compareTo(p2) == 0){
 			return 0;
 		}
-		Point a = new Point(p1.getX() - referencePoint.getX(), p1.getY() - referencePoint.getY());
-		Point b = new Point(p2.getX() - referencePoint.getX(), p2.getY() - referencePoint.getY());
 
-		else if(crossProduct(a,b) > 0){
+		else if(crossProduct(p1,p2) > 0){
 			return -1;
 		}
 
-		else if(crossProduct(a,b) == 0 && flag == true && )
+//		else if(crossProduct(p1,p2) == 0 && flag == true && ){
+//			return -1;
+//		}
+//
+//		else if(crossProduct(p1,p2) == 0 && flag == false && ){
+//			return -1;
+//		}
 
 		else{
 			return 1;
 		}
-		//TODO
-		return 0; 
 	}
 	    
 
@@ -78,7 +80,7 @@ public class PolarAngleComparator implements Comparator<Point>
      * @param p2
      * @return cross product of two vectors: p1 - referencePoint and p2 - referencePoint
      */
-    private int crossProduct(Point p1, Point p2)
+    public int crossProduct(Point p1, Point p2)
     {
     	// TODO 
     	return 0; 
@@ -90,26 +92,17 @@ public class PolarAngleComparator implements Comparator<Point>
      * @param p2
      * @return dot product of two vectors: p1 - referencePoint and p2 - referencePoint
      */
-    private int dotProduct(Point p1, Point p2)
+    public int dotProduct(Point p1, Point p2)
     {
-    	// TODO 
-    	return 0; 
+		int vectAX = p1.getX() - referencePoint.getX();
+		int vectAY = p1.getY() - referencePoint.getY();
+
+		int vectBX = p2.getX() - referencePoint.getX();
+		int vectBY = p2.getY() - referencePoint.getY();
+
+		int product = (vectAX * vectBX) + (vectAY * vectBY);
+
+    	return product;
     }
 
-    private int closer(Point p1, Point p2){
-    	double dist1 = Math.sqrt((p1.getX() - referencePoint.getX())*(p1.getX() - referencePoint.getX())+(p1.getY() - referencePoint.getY())*referencePoint.getX())+(p1.getY() - referencePoint.getY()));
-		double dist2 = Math.sqrt((p2.getX() - referencePoint.getX())*(p2.getX() - referencePoint.getX())+(p2.getY() - referencePoint.getY())*referencePoint.getX())+(p2.getY() - referencePoint.getY()));
-
-		if(dist1 > dist2){
-			return 1;
-		}
-
-		else if(dist2 > dist1){
-			return -1;
-		}
-
-		else {
-			return 0;
-		}
-	}
 }
