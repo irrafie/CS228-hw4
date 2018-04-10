@@ -65,8 +65,13 @@ public class CompareHullAlgorithms
 	 * @throws IllegalArgumentException if numPts < 1
 	 */
 	private static Point[] generateRandomPoints(int numPts, Random rand) throws IllegalArgumentException
-	{ 
-		return null; 
-		// TODO 
+	{
+
+		Point[] randomGen = new Point[numPts];
+
+		for(int i = 0; i < numPts; i++){
+			randomGen[i] = new Point(rand.nextInt(101) - 50, rand.nextInt(101) - 50);
+		}
+		return randomGen;
 	}
 }
