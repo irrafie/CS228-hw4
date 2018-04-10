@@ -82,8 +82,16 @@ public class PolarAngleComparator implements Comparator<Point>
      */
     public int crossProduct(Point p1, Point p2)
     {
-    	// TODO 
-    	return 0; 
+
+		int vectAX = p1.getX() - referencePoint.getX();
+		int vectAY = p1.getY() - referencePoint.getY();
+
+		int vectBX = p2.getX() - referencePoint.getX();
+		int vectBY = p2.getY() - referencePoint.getY();
+
+		int vect = (vectAX * vectBY) - (vectAY * vectBX);
+		// TODO
+    	return vect;
     }
 
     /**
