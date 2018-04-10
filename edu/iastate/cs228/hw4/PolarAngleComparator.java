@@ -80,7 +80,7 @@ public class PolarAngleComparator implements Comparator<Point>
      * @param p2
      * @return cross product of two vectors: p1 - referencePoint and p2 - referencePoint
      */
-    public int crossProduct(Point p1, Point p2)
+    private int crossProduct(Point p1, Point p2)
     {
 
 		int vectAX = p1.getX() - referencePoint.getX();
@@ -90,7 +90,6 @@ public class PolarAngleComparator implements Comparator<Point>
 		int vectBY = p2.getY() - referencePoint.getY();
 
 		int vect = (vectAX * vectBY) - (vectAY * vectBX);
-		// TODO
     	return vect;
     }
 
@@ -100,7 +99,7 @@ public class PolarAngleComparator implements Comparator<Point>
      * @param p2
      * @return dot product of two vectors: p1 - referencePoint and p2 - referencePoint
      */
-    public int dotProduct(Point p1, Point p2)
+    private int dotProduct(Point p1, Point p2)
     {
 		int vectAX = p1.getX() - referencePoint.getX();
 		int vectAY = p1.getY() - referencePoint.getY();
