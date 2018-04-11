@@ -72,7 +72,7 @@ public class PolarTester {
         Point p1 = new Point(1, 2);
         Point p2 = new Point(2, 1);
         PolarAngleComparator p = new PolarAngleComparator(ref, true);
-//        assertEquals(-3, p.crossProduct(p1, p2));
+        assertEquals(-3, p.crossProduct(p1, p2));
     }
 
     @Test
@@ -82,6 +82,6 @@ public class PolarTester {
         Point p1 = new Point(1, 2);
         Point p2 = new Point(2, 1);
         PolarAngleComparator p = new PolarAngleComparator(ref, true);
-//        assertEquals(4, p.dotProduct(p1, p2));
+        assertEquals(4, p.dotProduct(p1, p2));
     }
 }

@@ -10,28 +10,28 @@ import java.util.Random;
  * @author	Irfan Farhan Mohamad Rafie
  *
  * This class sorts an array of Point objects using a provided Comparator.  For the purpose
- * you may adapt your implementation of quicksort from Project 2.  
+ * you may adapt your implementation of quicksort from Project 2.
  */
 
 public class QuickSortPoints
 {
 	private Point[] points;  	// Array of points to be sorted.
-	
+
 
 	/**
-	 * Constructor takes an array of Point objects. 
-	 * 
+	 * Constructor takes an array of Point objects.
+	 *
 	 * @param pts
 	 */
 	QuickSortPoints(Point[] pts)
 	{
 		points = pts;
 	}
-	
-	
+
+
 	/**
-	 * Copy the sorted array to pts[]. 
-	 * 
+	 * Copy the sorted array to pts[].
+	 *
 	 * @param pts  array to copy onto
 	 */
 	void getSortedPoints(Point[] pts)
@@ -50,10 +50,10 @@ public class QuickSortPoints
 
 	}
 
-	
+
 	/**
-	 * Perform quicksort on the array points[] with a supplied comparator. 
-	 * 
+	 * Perform quicksort on the array points[] with a supplied comparator.
+	 *
 	 * @param comp
 	 */
 	public void quickSort(Comparator<Point> comp)
@@ -68,11 +68,11 @@ public class QuickSortPoints
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 	/**
-	 * Operates on the subarray of points[] with indices between first and last. 
-	 * 
+	 * Operates on the subarray of points[] with indices between first and last.
+	 *
 	 * @param first  firsting index of the subarray
 	 * @param last   last
 	 *                 ing index of the subarray
@@ -89,11 +89,11 @@ public class QuickSortPoints
 			quickSortRec(index, last, comp);
 		}
 	}
-	
+
 
 	/**
 	 * Operates on the subarray of points[] with indices between first and last.
-	 * 
+	 *
 	 * @param first
 	 * @param last
 	 * @return
@@ -130,7 +130,12 @@ public class QuickSortPoints
 	public Point[] getPointsArray(){
 		return points;
 
+	}
 }
-}
+
+
+
+
+
 
 

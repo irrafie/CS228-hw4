@@ -185,10 +185,20 @@ public abstract class ConvexHull
 	 */
 	public String toString()
 	{
-		// TODO
 		String temp = "";
+		int lineCount = 0;
 
-		return null; 
+		while(lineCount < hullVertices.length){
+			for(int i = 0; i < 5; i++){
+				temp += hullVertices[lineCount] + "   ";
+				lineCount++;
+				if(lineCount >= hullVertices.length){
+					return temp;
+				}
+			}
+			temp = temp + "\n";
+		}
+		return temp;
 	}
 	
 	
@@ -215,9 +225,15 @@ public abstract class ConvexHull
 	 * @throws IllegalStateException  if hullVertices[] has not been populated (i.e., the convex 
 	 *                                   hull has not been constructed)
 	 */
-	public void writeHullToFile() throws IllegalStateException 
-	{
-		// TODO 
+	public void writeHullToFile() throws IllegalStateException, FileNotFoundException {
+		String temp = "";
+		for(int i = 0; i < hullVertices.length; i++){
+			temp += hullVertices[i].getX() + " " + hullVertices[i].getY() + "\n";
+		}
+
+		PrintWriter output = new PrintWriter("hull.txt");
+		output.println(temp);
+		output.close();
 	}
 	
 
@@ -228,18 +244,20 @@ public abstract class ConvexHull
 	 */
 	public void draw()
 	{		
-		int numSegs = 0;  // number of segments to draw 
+		int numSegs = 0;  // number of segments to draw
 
 		// Based on Section 4, generate the line segments to draw for display of the convex hull.
 		// Assign their number to numSegs, and store them in segments[] in the order. 
-		Segment[] segments = new Segment[numSegs]; 
-		
-		// TODO 
-		
+		Segment[] segments = new Segment[hullVertices.length];
 
-		
+		for(numSegs = 0; numSegs < hullVertices.length-1; ++numSegs){
+			segments[numSegs] = new Segment(hullVertices[numSegs],hullVertices[numSegs+1]);
+		}
+
+		segments[hullVertices.length-1] = new Segment(hullVertices[hullVertices.length-1],hullVertices[0]);
+		Plot tempora = new Plot();
 		// The following statement creates a window to display the convex hull.
-		Plot.myFrame(pointsNoDuplicate, segments, getClass().getName());
+		tempora.myFrame(pointsNoDuplicate, segments, getClass().getName());
 		
 	}
 
@@ -253,22 +271,21 @@ public abstract class ConvexHull
 	 */
 	public void removeDuplicates()
 	{
-		Point refx = new Point(0, 0);
-		PolarAngleComparator comp = new PolarAngleComparator(refx, false);
-		quicksorter.quickSort(comp);
+		Point temp = new Point();
+		Arrays.sort(points);
 
-		ArrayList<Point> temp = new ArrayList<>();
-		temp.add(points[0]);
+		ArrayList<Point> tempo = new ArrayList<>();
+		tempo.add(points[0]);
 		for(int x = 1; x < points.length; x++){
 			if(points[x-1].compareTo(points[x]) != 0){
-				temp.add(points[x]);
+				tempo.add(points[x]);
 			}
 		}
 
-		Point[] tempo = new Point[temp.size()];
-		for(int x = 0; x < tempo.length; x++){
-			tempo[x] = temp.get(x);
+		Point[] tempop = new Point[tempo.size()];
+		for(int x = 0; x < tempop.length; x++){
+			tempop[x] = tempo.get(x);
 		}
-		pointsNoDuplicate = tempo;
+		pointsNoDuplicate = tempop;
 	}
 }

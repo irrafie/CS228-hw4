@@ -12,5 +12,8 @@ public class Test {
         tempo[3] = new Point(3,0);
         tempo[4] = new Point(1,0);
         GrahamScan gram = new GrahamScan("points.txt");
+        gram.constructHull();
+        gram.writeHullToFile();
+        gram.draw();
     }
 }

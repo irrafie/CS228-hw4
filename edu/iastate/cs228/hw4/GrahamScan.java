@@ -28,7 +28,6 @@ public class GrahamScan extends ConvexHull
 		if(pointsNoDuplicate.length == 0){
 			throw new IllegalArgumentException();
 		}
-		super.lowestPoint = pointsNoDuplicate[0];
 	}
 	
 
@@ -44,7 +43,6 @@ public class GrahamScan extends ConvexHull
 		super(inputFileName); 
 		super.algorithm = "Graham's Scan";
 		setUpScan();
-		super.lowestPoint = pointsNoDuplicate[0];
 	}
 
 	
@@ -75,30 +73,52 @@ public class GrahamScan extends ConvexHull
 	 */
 	public void constructHull()
 	{
+        vertexStack = new ArrayBasedStack<Point>();
 		setUpScan();
 		vertexStack.push(pointsNoDuplicate[0]);
 		if(pointsNoDuplicate.length == 1){
 			hullVertices = new Point[1];
 			hullVertices[0] = pointsNoDuplicate[0];
+			return;
 		}
 
 		else if(pointsNoDuplicate.length == 2){
 			hullVertices = new Point[2];
 			hullVertices[0] = pointsNoDuplicate[0];
 			hullVertices[1] = pointsNoDuplicate[1];
+			return;
 		}
 
-		vertexStack.push(pointsNoDuplicate[1]);
+		vertexStack.push(pointsNoDuplicate[2]);
 
-		// TODO
+		PolarAngleComparator compo = new PolarAngleComparator(lowestPoint,true);
+
+		for(int j = 3; j < pointsNoDuplicate.length; j++){
+			while(compo.compare(next(),pointsNoDuplicate[j]) >= 0 ) {
+				vertexStack.pop();
+			}
+            vertexStack.push(pointsNoDuplicate[j]);
+        }
+
+		hullVertices = new Point[vertexStack.size()];
+		int i = vertexStack.size()-1;
+		while(!vertexStack.isEmpty()){
+		    hullVertices[i] = vertexStack.pop();
+		    i--;
+        }
 	}
 	
-	
+	public Point next(){
+		Point temp = vertexStack.pop();
+		Point toReturn = vertexStack.peek();
+		vertexStack.push(temp);
+		return toReturn;
+	}
 	/**
 	 * Set the variable quicksorter from the class ConvexHull to sort by polar angle with respect 
-	 * to lowestPoint, and call quickSort() from the QuickSortPoints class on pointsNoDupliate[]. 
-	 * The argument supplied to quickSort() is an object created by the constructor call 
-	 * PolarAngleComparator(lowestPoint, true).       
+	 * to lowestPoint, and call quickSort() from the QuickSortPoints class on pointsNoDupliate[].
+	 * The argument supplied to quickSort() is an object created by the constructor call
+	 * PolarAngleComparator(lowestPoint, true).
 	 * 
 	 * Ought to be private, but is made public for testing convenience. 
 	 *
@@ -109,10 +129,10 @@ public class GrahamScan extends ConvexHull
 
 		super.quicksorter = new QuickSortPoints(this.pointsNoDuplicate);
 		super.quicksorter.quickSort(comp);
-		super.quicksorter.getSortedPoints(pointsNoDuplicate);
 		pointsNoDuplicate = super.quicksorter.getPointsArray();
-		for(int i = 0; i < pointsNoDuplicate.length; i++){
-			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());
-		}
+
+//		for(int i = 0; i < pointsNoDuplicate.length; i++){
+//			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());
+//		}
 	}	
 }
