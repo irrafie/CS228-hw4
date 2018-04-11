@@ -25,7 +25,6 @@ public class GrahamScan extends ConvexHull
 		super(pts);
 		super.algorithm = "Graham's Scan";
 		setUpScan();
-		super.removeDuplicates();
 		if(pointsNoDuplicate.length == 0){
 			throw new IllegalArgumentException();
 		}
@@ -45,7 +44,6 @@ public class GrahamScan extends ConvexHull
 		super(inputFileName); 
 		super.algorithm = "Graham's Scan";
 		setUpScan();
-		super.removeDuplicates();
 		super.lowestPoint = pointsNoDuplicate[0];
 	}
 
@@ -112,6 +110,7 @@ public class GrahamScan extends ConvexHull
 		super.quicksorter = new QuickSortPoints(this.pointsNoDuplicate);
 		super.quicksorter.quickSort(comp);
 		super.quicksorter.getSortedPoints(pointsNoDuplicate);
+		pointsNoDuplicate = super.quicksorter.getPointsArray();
 		for(int i = 0; i < pointsNoDuplicate.length; i++){
 			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());
 		}

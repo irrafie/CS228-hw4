@@ -37,16 +37,17 @@ public class QuickSortPoints
 	void getSortedPoints(Point[] pts)
 	{
 		ArrayList<Point> temp = new ArrayList<>();
-		for(int x = 0; x < points.length-1; x++){
-			if(points[x] != points[x+1]){
-				temp.add(points[x]);
+		for(int x = 1; x < pts.length-1; x++){
+			if(pts[x-1].compareTo(pts[x]) != 0){
+				temp.add(pts[x]);
 			}
 		}
+
 		Point[] tempo = new Point[temp.size()];
 		for(int x = 0; x < tempo.length; x++){
 			tempo[x] = temp.get(x);
 		}
-		pts = tempo;
+
 	}
 
 	
@@ -58,7 +59,10 @@ public class QuickSortPoints
 	public void quickSort(Comparator<Point> comp)
 	{
 		try{
-			quickSortRec(0, points.length-1, comp);
+			if(points == null){
+				throw new NullPointerException("Null Pointer");
+			}
+			quickSortRec( 0, points.length - 1, comp);
 		}
 		catch (NullPointerException e){
 			e.printStackTrace();
@@ -83,7 +87,8 @@ public class QuickSortPoints
 
 		if(last > index){
 			quickSortRec(index, last, comp);
-		}	}
+		}
+	}
 	
 
 	/**
@@ -111,8 +116,8 @@ public class QuickSortPoints
 			if(first <= last){
 				Point temp;
 				temp = points[first];
-				points[last] = points[first];
-				points[first] = temp;
+				points[first] = points[last];
+				points[last] = temp;
 				first++;
 				last--;
 			}
@@ -121,6 +126,11 @@ public class QuickSortPoints
 
 		return first;
 	}
+
+	public Point[] getPointsArray(){
+		return points;
+
+}
 }
 
 

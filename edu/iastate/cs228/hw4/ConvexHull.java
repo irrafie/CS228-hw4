@@ -6,6 +6,7 @@ package edu.iastate.cs228.hw4;
  *
  */
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.File;
@@ -88,6 +89,8 @@ public abstract class ConvexHull
 	{
 		this.points = pts;
 		quicksorter = new QuickSortPoints(this.points);
+		removeDuplicates();
+		lowestPoint = pointsNoDuplicate[0];
 	}
 	
 	
@@ -108,7 +111,7 @@ public abstract class ConvexHull
 	 */
 	public ConvexHull(String inputFileName) throws FileNotFoundException, InputMismatchException
 	{
-		Scanner scanInput = new Scanner(inputFileName);
+		Scanner scanInput = new Scanner(new FileReader(inputFileName));
 		int count = 0;
 		int x = 0;
 		int y = 0;
@@ -123,8 +126,8 @@ public abstract class ConvexHull
 			else if(count % 2 != 0){
 				y = Integer.parseInt(tempo);
 				count++;
+				temp.add(new Point(x,y));
 			}
-			temp.add(new Point(x,y));
 		}
 
 		points = new Point[temp.size()];
@@ -135,6 +138,10 @@ public abstract class ConvexHull
 		if(count % 2 != 0){
 			throw new InputMismatchException();
 		}
+
+		quicksorter = new QuickSortPoints(this.points);
+		removeDuplicates();
+		lowestPoint = pointsNoDuplicate[0];
 		}
 
 	
@@ -246,8 +253,22 @@ public abstract class ConvexHull
 	 */
 	public void removeDuplicates()
 	{
-		PolarAngleComparator comp = new PolarAngleComparator(lowestPoint, false);
+		Point refx = new Point(0, 0);
+		PolarAngleComparator comp = new PolarAngleComparator(refx, false);
 		quicksorter.quickSort(comp);
-		quicksorter.getSortedPoints(pointsNoDuplicate);
+
+		ArrayList<Point> temp = new ArrayList<>();
+		temp.add(points[0]);
+		for(int x = 1; x < points.length; x++){
+			if(points[x-1].compareTo(points[x]) != 0){
+				temp.add(points[x]);
+			}
+		}
+
+		Point[] tempo = new Point[temp.size()];
+		for(int x = 0; x < tempo.length; x++){
+			tempo[x] = temp.get(x);
+		}
+		pointsNoDuplicate = tempo;
 	}
 }
