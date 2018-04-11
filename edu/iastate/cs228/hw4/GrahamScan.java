@@ -1,6 +1,7 @@
 package edu.iastate.cs228.hw4;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.ArrayList; 
 
@@ -73,9 +74,9 @@ public class GrahamScan extends ConvexHull
 	 */
 	public void constructHull()
 	{
+	    long start = System.nanoTime();
         vertexStack = new ArrayBasedStack<Point>();
 		setUpScan();
-		vertexStack.push(pointsNoDuplicate[0]);
 		if(pointsNoDuplicate.length == 1){
 			hullVertices = new Point[1];
 			hullVertices[0] = pointsNoDuplicate[0];
@@ -89,12 +90,14 @@ public class GrahamScan extends ConvexHull
 			return;
 		}
 
+        vertexStack.push(pointsNoDuplicate[0]);
+        vertexStack.push(pointsNoDuplicate[1]);
 		vertexStack.push(pointsNoDuplicate[2]);
 
 		PolarAngleComparator compo = new PolarAngleComparator(lowestPoint,true);
 
 		for(int j = 3; j < pointsNoDuplicate.length; j++){
-			while(compo.compare(next(),pointsNoDuplicate[j]) >= 0 ) {
+			while(compo.compare(next(),pointsNoDuplicate[j]) != -1) {
 				vertexStack.pop();
 			}
             vertexStack.push(pointsNoDuplicate[j]);
@@ -106,6 +109,8 @@ public class GrahamScan extends ConvexHull
 		    hullVertices[i] = vertexStack.pop();
 		    i--;
         }
+        hullVertices[0] = lowestPoint;
+        time = System.nanoTime() - start;
 	}
 	
 	public Point next(){
@@ -130,6 +135,7 @@ public class GrahamScan extends ConvexHull
 		super.quicksorter = new QuickSortPoints(this.pointsNoDuplicate);
 		super.quicksorter.quickSort(comp);
 		pointsNoDuplicate = super.quicksorter.getPointsArray();
+
 
 //		for(int i = 0; i < pointsNoDuplicate.length; i++){
 //			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());

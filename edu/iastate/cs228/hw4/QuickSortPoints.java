@@ -85,7 +85,7 @@ public class QuickSortPoints
 			quickSortRec(first, index - 1, comp);
 		}
 
-		if(last > index){
+		if(index < last){
 			quickSortRec(index, last, comp);
 		}
 	}
@@ -101,35 +101,42 @@ public class QuickSortPoints
 	private int partition(int first, int last, Comparator<Point> comp)
 	{
 		Random rand = new Random(100);
-		int mid = rand.nextInt(last);
-		Point pivot = points[first];
+		int i = first;
+		int j = last;
 
-		while(first <= last){
-			while(comp.compare(points[first], pivot) < 0){
-				first++;
+		Point pivot = points[(first+last)/2];
+
+		while(i <= j){
+			while(comp.compare(points[i], pivot) == -1){
+				i++;
 			}
 
-			while(comp.compare(points[last], pivot) > 0){
-				last--;
+			while(comp.compare(points[j], pivot) == 1){
+				j--;
 			}
 
-			if(first <= last){
-				Point temp;
-				temp = points[first];
-				points[first] = points[last];
-				points[last] = temp;
-				first++;
-				last--;
+			if(i <= j){
+				swap(i,j);
+				i++;
+				j--;
 			}
 
 		}
 
-		return first;
+		return i;
 	}
 
 	public Point[] getPointsArray(){
 		return points;
 
+	}
+
+	private void swap(int i, int j){
+		Point temp;
+
+		temp = points[i];
+		points[i] = points[j];
+		points[j] = temp;
 	}
 }
 

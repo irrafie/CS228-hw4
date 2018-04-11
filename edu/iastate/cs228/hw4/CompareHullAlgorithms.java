@@ -15,7 +15,8 @@ package edu.iastate.cs228.hw4;
  */
 
 import java.io.FileNotFoundException;
-import java.util.Scanner; 
+import java.util.InputMismatchException;
+import java.util.Scanner;
 import java.util.Random; 
 
 
@@ -27,8 +28,8 @@ public class CompareHullAlgorithms
 	 * 
 	 * @param args
 	 **/
-	public static void main(String[] args) 
-	{		
+	public static void main(String[] args) throws FileNotFoundException {
+
 		// TODO 
 		// 
 		// Conducts multiple rounds of convex hull construction. Within each round, performs the following: 
@@ -46,13 +47,53 @@ public class CompareHullAlgorithms
 		// 
 		// A sample scenario is given in Section 5 of the project description. 
 		// 	
-		ConvexHull[] algorithms = new ConvexHull[2]; 
-		
-		// Within a hull construction round, have each algorithm call the constructHull() and draw()
-		// methods in the ConvexHull class.  You can visually check the result. (Windows 
-		// have to be closed manually before rerun.)  Also, print out the statistics table 
-		// (see Section 5). 
-		
+		ConvexHull[] algorithms = new ConvexHull[2];
+		int RandomPoints = 0;
+		Scanner userInput = new Scanner(System.in);
+		int choice = 0;
+		int count = 1;
+		while(true) {
+			System.out.print("Trial "+ count+": ");
+			choice = userInput.nextInt();
+			String input = "";
+
+			switch (choice) {
+				case 1:
+					Random rand = new Random(1);
+					System.out.print("\nEnter number of random points: ");
+					RandomPoints = userInput.nextInt();
+					Point[] random = generateRandomPoints(RandomPoints, rand);
+					algorithms[0] = new GrahamScan(random);
+					algorithms[1] = new JarvisMarch(random);
+					break;
+				case 2:
+					System.out.print("\nPoints from a file\nFile name: ");
+					input = userInput.next();
+					algorithms[0] = new GrahamScan(input);
+					algorithms[1] = new JarvisMarch(input);
+					break;
+
+				case 3:
+					return;
+			}
+
+			System.out.println("algorithm     size time(ns)");
+			System.out.println("---------------------------------------");
+			for (int i = 0; i < 1; i++) {
+				algorithms[i].constructHull();
+				System.out.println(algorithms[i].stats());
+				algorithms[i].draw();
+			}
+			System.out.println("---------------------------------------");
+
+			count++;
+
+
+			// Within a hull construction round, have each algorithm call the constructHull() and draw()
+			// methods in the ConvexHull class.  You can visually check the result. (Windows
+			// have to be closed manually before rerun.)  Also, print out the statistics table
+			// (see Section 5).
+		}
 	}
 	
 	
