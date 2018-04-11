@@ -1,5 +1,6 @@
 package edu.iastate.cs228.hw4;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
@@ -35,7 +36,17 @@ public class QuickSortPoints
 	 */
 	void getSortedPoints(Point[] pts)
 	{
-		pts = points;
+		ArrayList<Point> temp = new ArrayList<>();
+		for(int x = 0; x < points.length-1; x++){
+			if(points[x] != points[x+1]){
+				temp.add(points[x]);
+			}
+		}
+		Point[] tempo = new Point[temp.size()];
+		for(int x = 0; x < tempo.length; x++){
+			tempo[x] = temp.get(x);
+		}
+		pts = tempo;
 	}
 
 	
@@ -47,7 +58,7 @@ public class QuickSortPoints
 	public void quickSort(Comparator<Point> comp)
 	{
 		try{
-			quickSortRec(0, points.length, comp);
+			quickSortRec(0, points.length-1, comp);
 		}
 		catch (NullPointerException e){
 			e.printStackTrace();
@@ -105,6 +116,7 @@ public class QuickSortPoints
 				first++;
 				last--;
 			}
+
 		}
 
 		return first;

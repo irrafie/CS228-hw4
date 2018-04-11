@@ -88,8 +88,6 @@ public abstract class ConvexHull
 	{
 		this.points = pts;
 		quicksorter = new QuickSortPoints(this.points);
-		removeDuplicates();
-		// TODO
 	}
 	
 	
@@ -110,8 +108,34 @@ public abstract class ConvexHull
 	 */
 	public ConvexHull(String inputFileName) throws FileNotFoundException, InputMismatchException
 	{
-		// TODO 
-	}
+		Scanner scanInput = new Scanner(inputFileName);
+		int count = 0;
+		int x = 0;
+		int y = 0;
+		int pointCount = 0;
+		ArrayList<Point> temp = new ArrayList<Point>();
+		while(scanInput.hasNext()){
+			String tempo = scanInput.next();
+			if(count % 2 == 0) {
+				x = Integer.parseInt(tempo);
+				count++;
+			}
+			else if(count % 2 != 0){
+				y = Integer.parseInt(tempo);
+				count++;
+			}
+			temp.add(new Point(x,y));
+		}
+
+		points = new Point[temp.size()];
+		for(int i = 0; i < temp.size(); i++){
+			points[i] = temp.get(i);
+		}
+
+		if(count % 2 != 0){
+			throw new InputMismatchException();
+		}
+		}
 
 	
 	/**
@@ -125,17 +149,16 @@ public abstract class ConvexHull
 	 * Outputs performance statistics in the format: 
 	 * 
 	 * <convex hull algorithm> <size>  <time>
-	 * 
-	 * For instance, 
-	 * 
+	 *
+	 * For instance,
+	 *
 	 * Graham's scan   1000	  9200867
-	 *  
-	 * Use the spacing in the sample run in Section 5 of the project description. 
+	 *
+	 * Use the spacing in the sample run in Section 5 of the project description.
 	 */
 	public String stats()
 	{
-		return null; 
-		// TODO 
+		return algorithm + " " + points.length + " " + time;
 	}
 	
 	
@@ -155,7 +178,9 @@ public abstract class ConvexHull
 	 */
 	public String toString()
 	{
-		// TODO 
+		// TODO
+		String temp = "";
+
 		return null; 
 	}
 	
@@ -221,9 +246,8 @@ public abstract class ConvexHull
 	 */
 	public void removeDuplicates()
 	{
-		Point refx = new Point(0, 0);
-		PolarAngleComparator comp = new PolarAngleComparator(refx, false);
+		PolarAngleComparator comp = new PolarAngleComparator(lowestPoint, false);
 		quicksorter.quickSort(comp);
-		// TODO 
+		quicksorter.getSortedPoints(pointsNoDuplicate);
 	}
 }

@@ -22,8 +22,14 @@ public class GrahamScan extends ConvexHull
 	 */
 	public GrahamScan(Point[] pts) throws IllegalArgumentException 
 	{
-		super(pts); 
-		// TODO 
+		super(pts);
+		super.algorithm = "Graham's Scan";
+		setUpScan();
+		super.removeDuplicates();
+		if(pointsNoDuplicate.length == 0){
+			throw new IllegalArgumentException();
+		}
+		super.lowestPoint = pointsNoDuplicate[0];
 	}
 	
 
@@ -37,7 +43,10 @@ public class GrahamScan extends ConvexHull
 	public GrahamScan(String inputFileName) throws FileNotFoundException, InputMismatchException
 	{
 		super(inputFileName); 
-		// TODO 
+		super.algorithm = "Graham's Scan";
+		setUpScan();
+		super.removeDuplicates();
+		super.lowestPoint = pointsNoDuplicate[0];
 	}
 
 	
@@ -68,6 +77,21 @@ public class GrahamScan extends ConvexHull
 	 */
 	public void constructHull()
 	{
+		setUpScan();
+		vertexStack.push(pointsNoDuplicate[0]);
+		if(pointsNoDuplicate.length == 1){
+			hullVertices = new Point[1];
+			hullVertices[0] = pointsNoDuplicate[0];
+		}
+
+		else if(pointsNoDuplicate.length == 2){
+			hullVertices = new Point[2];
+			hullVertices[0] = pointsNoDuplicate[0];
+			hullVertices[1] = pointsNoDuplicate[1];
+		}
+
+		vertexStack.push(pointsNoDuplicate[1]);
+
 		// TODO
 	}
 	
@@ -83,6 +107,13 @@ public class GrahamScan extends ConvexHull
 	 */
 	public void setUpScan()
 	{
-		// TODO 
+		PolarAngleComparator comp = new PolarAngleComparator(lowestPoint, true);
+
+		super.quicksorter = new QuickSortPoints(this.pointsNoDuplicate);
+		super.quicksorter.quickSort(comp);
+		super.quicksorter.getSortedPoints(pointsNoDuplicate);
+		for(int i = 0; i < pointsNoDuplicate.length; i++){
+			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());
+		}
 	}	
 }

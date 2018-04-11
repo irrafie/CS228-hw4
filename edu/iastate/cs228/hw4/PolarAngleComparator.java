@@ -59,13 +59,13 @@ public class PolarAngleComparator implements Comparator<Point>
 			return -1;
 		}
 
-//		else if(crossProduct(p1,p2) == 0 && flag == true && ){
-//			return -1;
-//		}
-//
-//		else if(crossProduct(p1,p2) == 0 && flag == false && ){
-//			return -1;
-//		}
+		else if(crossProduct(p1,p2) == 0 && flag && (p1.getX() * p1.getX() + p1.getY() * p1.getY() < p2.getX() * p2.getX() + p2.getY() * p2.getY())){ //TODO
+			return -1;
+		}
+
+		else if(crossProduct(p1,p2) == 0 && !flag && (p1.getX() * p1.getX() + p1.getY() * p1.getY() < p2.getX() * p2.getX() + p2.getY() * p2.getY())){ //TODO
+			return -1;
+		}
 
 		else{
 			return 1;
