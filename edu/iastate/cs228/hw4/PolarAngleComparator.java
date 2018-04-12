@@ -123,4 +123,32 @@ public class PolarAngleComparator implements Comparator<Point>
 		}
 	}
 
+	private int distChoose(Point p1, Point p2, char a){
+    	int temp = 0;
+    	switch (a){
+			case 'x':
+				temp = p1.getX() - p2.getX();
+				break;
+			case 'y':
+				temp = p1.getY() - p2.getY();
+				break;
+    	}
+		return temp;
+	}
+
+	public int compareWithRef(Point p1, Point p2, Point p3)
+	{
+		int vectA = (distChoose(p1,p3,'x') * distChoose(p2,p3,'y'));
+		int vectB = (distChoose(p2,p3,'x') * distChoose(p1,p3,'y'));
+
+		if(vectA < vectB || p2.equals(referencePoint)){
+			return 1;
+		}
+		else if(vectB < vectA || p1.equals(referencePoint)){
+			return -1;
+		}
+
+		return 0;
+	}
+
 }

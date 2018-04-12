@@ -165,9 +165,8 @@ public abstract class ConvexHull
 	 */
 	public String stats()
 	{
-		return algorithm + " " + points.length + " " + time;
+		return String.format("%-15s", algorithm) + String.format("%-5s", points.length) + String.format("%-10s", time);
 	}
-	
 	
 	/**
 	 * The string displays the convex hull with vertices in counterclockwise order starting at  

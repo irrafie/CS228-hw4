@@ -77,29 +77,29 @@ public class GrahamScan extends ConvexHull
 	    long start = System.nanoTime();
         vertexStack = new ArrayBasedStack<Point>();
 		setUpScan();
+        vertexStack.push(pointsNoDuplicate[0]);
 		if(pointsNoDuplicate.length == 1){
 			hullVertices = new Point[1];
 			hullVertices[0] = pointsNoDuplicate[0];
 			return;
 		}
+        vertexStack.push(pointsNoDuplicate[1]);
 
-		else if(pointsNoDuplicate.length == 2){
+		if(pointsNoDuplicate.length == 2){
 			hullVertices = new Point[2];
 			hullVertices[0] = pointsNoDuplicate[0];
 			hullVertices[1] = pointsNoDuplicate[1];
 			return;
 		}
 
-        vertexStack.push(pointsNoDuplicate[0]);
-        vertexStack.push(pointsNoDuplicate[1]);
+
 		vertexStack.push(pointsNoDuplicate[2]);
 
 		PolarAngleComparator compo = new PolarAngleComparator(lowestPoint,true);
-
 		for(int j = 3; j < pointsNoDuplicate.length; j++){
-			while(compo.compare(next(),pointsNoDuplicate[j]) != -1) {
-				vertexStack.pop();
-			}
+            while (compo.compareWithRef(beforeTop(), pointsNoDuplicate[j], vertexStack.peek()) != 1 && (pointsNoDuplicate[j].getY() != vertexStack.peek().getY() || pointsNoDuplicate[j].getY() != beforeTop().getY())) {  //WORKS but fails if points are linear //degenerate cases handled    //handle degenerate by adding to list
+                vertexStack.pop();                                                                                                                                  //if points are collinear, they are not removed
+            }
             vertexStack.push(pointsNoDuplicate[j]);
         }
 
@@ -109,11 +109,11 @@ public class GrahamScan extends ConvexHull
 		    hullVertices[i] = vertexStack.pop();
 		    i--;
         }
-        hullVertices[0] = lowestPoint;
+        removeLinear();
         time = System.nanoTime() - start;
 	}
 	
-	public Point next(){
+	public Point beforeTop(){
 		Point temp = vertexStack.pop();
 		Point toReturn = vertexStack.peek();
 		vertexStack.push(temp);
@@ -136,9 +136,32 @@ public class GrahamScan extends ConvexHull
 		super.quicksorter.quickSort(comp);
 		pointsNoDuplicate = super.quicksorter.getPointsArray();
 
-
+//      DEBUG QUICKSORT
 //		for(int i = 0; i < pointsNoDuplicate.length; i++){
 //			System.out.println(pointsNoDuplicate[i].getX() + ", " + pointsNoDuplicate[i].getY());
 //		}
-	}	
+	}
+
+	private void removeLinear(){
+	    ArrayList<Point> tempora = new ArrayList<Point>();
+        tempora.add(hullVertices[0]);
+        for(int i = 1; i < hullVertices.length-1; i++){
+            if(hullVertices[i].getY() != hullVertices[i+1].getY()){
+                tempora.add(hullVertices[i]);
+            }
+            else if(hullVertices[i].getX() != hullVertices[i+1].getX() && hullVertices[i].getY() == hullVertices[i+1].getY()){
+                tempora.add(hullVertices[i]);
+            }
+        }
+
+
+
+        tempora.add(hullVertices[hullVertices.length-1]);
+
+        hullVertices = new Point[tempora.size()];
+        for(int i = 0; i < hullVertices.length; i++){
+            hullVertices[i] = tempora.get(i);
+        }
+    }
+
 }

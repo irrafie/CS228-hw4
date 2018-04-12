@@ -77,12 +77,15 @@ public class CompareHullAlgorithms
 					return;
 			}
 
-			System.out.println("algorithm     size time(ns)");
+			String output = "algorithm";
+
+			System.out.println(String.format("%-15s", output) + String.format("%-5s", "size") + String.format("%-10s", "time"));
 			System.out.println("---------------------------------------");
 			for (int i = 0; i < 1; i++) {
 				algorithms[i].constructHull();
 				System.out.println(algorithms[i].stats());
 				algorithms[i].draw();
+				algorithms[i].writeHullToFile();
 			}
 			System.out.println("---------------------------------------");
 

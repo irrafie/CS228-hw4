@@ -2,8 +2,11 @@ package edu.iastate.cs228.hw4;
 
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 
+/**
+ * @author Irfan Farhan Mohamad Rafie
+ */
 public class JarvisMarch extends ConvexHull
 {
 	// last element in pointsNoDuplicate(), i.e., highest of all points (and the rightmost one in case of a tie)
@@ -26,7 +29,10 @@ public class JarvisMarch extends ConvexHull
 	public JarvisMarch(Point[] pts) throws IllegalArgumentException 
 	{
 		super(pts); 
-		// TODO 
+		algorithm = "Jarvis' March";
+		highestPoint = pointsNoDuplicate[pointsNoDuplicate.length-1];
+		leftChain = new ArrayBasedStack<Point>();
+		rightChain = new ArrayBasedStack<Point>();
 	}
 
 	
@@ -40,8 +46,11 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public JarvisMarch(String inputFileName) throws FileNotFoundException, InputMismatchException
 	{
-		super(inputFileName); 
-		// TODO 
+		super(inputFileName);
+		algorithm = "Jarvis' March";
+		highestPoint = pointsNoDuplicate[pointsNoDuplicate.length-1];
+		leftChain = new ArrayBasedStack<Point>();
+		rightChain = new ArrayBasedStack<Point>();
 	}
 
 
@@ -63,6 +72,16 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public void constructHull()
 	{
+		if(pointsNoDuplicate.length == 1){
+			hullVertices = new Point[1];
+			hullVertices[0] = pointsNoDuplicate[0];
+		}
+
+		else if(pointsNoDuplicate.length == 2){
+			hullVertices = new Point[2];
+			hullVertices[0] = pointsNoDuplicate[0];
+			hullVertices[1] = pointsNoDuplicate[1];
+		}
 		// TODO
 	}
 	
@@ -110,6 +129,10 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public Point nextVertex(Point v)
 	{
+		PolarAngleComparator comp = new PolarAngleComparator(v, false);
+		super.quicksorter = new QuickSortPoints(pointsNoDuplicate);
+		super.quicksorter.quickSort(comp);
+
 		return null; 
 	}
 }
