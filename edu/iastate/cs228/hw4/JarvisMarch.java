@@ -51,6 +51,7 @@ public class JarvisMarch extends ConvexHull
 		highestPoint = pointsNoDuplicate[pointsNoDuplicate.length-1];
 		leftChain = new ArrayBasedStack<Point>();
 		rightChain = new ArrayBasedStack<Point>();
+		lowestPoint = pointsNoDuplicate[0];
 	}
 
 
@@ -72,17 +73,37 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public void constructHull()
 	{
+		long start = System.nanoTime();
+
+		//degenerate case 1
 		if(pointsNoDuplicate.length == 1){
 			hullVertices = new Point[1];
 			hullVertices[0] = pointsNoDuplicate[0];
 		}
 
+		//degenerate case 2
 		else if(pointsNoDuplicate.length == 2){
 			hullVertices = new Point[2];
 			hullVertices[0] = pointsNoDuplicate[0];
 			hullVertices[1] = pointsNoDuplicate[1];
 		}
-		// TODO
+
+		else{
+			createLeftChain();
+			createRightChain();
+
+			hullVertices = new Point[rightChain.size() + leftChain.size()];
+
+			for(int i = hullVertices.length - 1; i > rightChain.size()-1; i--){
+				hullVertices[i] = leftChain.pop();
+			}
+
+			for(int i = rightChain.size() -1; i >= 0; i--){
+				hullVertices[i] = rightChain.pop();
+			}
+			removeLinear();
+			time = System.nanoTime() - start ;
+		}
 	}
 	
 	
@@ -98,7 +119,15 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public void createRightChain()
 	{
-		// TODO 
+
+		rightChain.push(lowestPoint);
+		//while has not reached lowest point
+		while(rightChain.peek().compareTo(highestPoint) != 0){
+		//push new objects until it reaches highest point
+			Point tempo = nextVertex(rightChain.peek());
+			//tempo is not pushed, DEBUG ME
+			rightChain.push(tempo);
+		}
 	}
 	
 	
@@ -112,7 +141,13 @@ public class JarvisMarch extends ConvexHull
 	 */
 	public void createLeftChain()
 	{
-		// TODO 
+		leftChain.push(highestPoint);
+		//while has not reached lowest point
+		while(leftChain.peek().compareTo(lowestPoint) != 0){
+			//push new objects until it reaches lowest point
+			Point tempo = nextVertex(leftChain.peek());
+			leftChain.push(tempo);
+		}
 	}
 	
 	
@@ -132,7 +167,45 @@ public class JarvisMarch extends ConvexHull
 		PolarAngleComparator comp = new PolarAngleComparator(v, false);
 		super.quicksorter = new QuickSortPoints(pointsNoDuplicate);
 		super.quicksorter.quickSort(comp);
+		int i =0;
+		//find location of v
+		while(!(pointsNoDuplicate[i].equals(v))){
+			i++;
+		}
 
-		return null; 
+		Point temp = v;
+
+		for(int j = 0; j < pointsNoDuplicate.length-1; j++){
+			if(comp.compare(pointsNoDuplicate[j],pointsNoDuplicate[j+1]) < 0){
+				temp = pointsNoDuplicate[j];
+			}
+		}
+
+		
+		return temp;
 	}
+
+	private void removeLinear(){
+		ArrayList<Point> tempora = new ArrayList<Point>();
+		tempora.add(hullVertices[0]);
+		for(int i = 1; i < hullVertices.length-1; i++){
+			if(hullVertices[i].getY() != hullVertices[i+1].getY()){
+				tempora.add(hullVertices[i]);
+			}
+			else if(hullVertices[i].getX() != hullVertices[i+1].getX() && hullVertices[i].getY() == hullVertices[i+1].getY()){
+				tempora.add(hullVertices[i]);
+			}
+		}
+
+
+
+		tempora.add(hullVertices[hullVertices.length-1]);
+
+		hullVertices = new Point[tempora.size()];
+		for(int i = 0; i < hullVertices.length; i++){
+			hullVertices[i] = tempora.get(i);
+		}
+	}
+
+
 }

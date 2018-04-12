@@ -74,18 +74,19 @@ public class CompareHullAlgorithms
 					break;
 
 				case 3:
-					return;
+					System.exit(0);
 			}
 
 			String output = "algorithm";
 
 			System.out.println(String.format("%-15s", output) + String.format("%-5s", "size") + String.format("%-10s", "time"));
 			System.out.println("---------------------------------------");
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 2; i++) {
 				algorithms[i].constructHull();
 				System.out.println(algorithms[i].stats());
+				//System.out.println(algorithms[i].toString());
 				algorithms[i].draw();
-				algorithms[i].writeHullToFile();
+				//algorithms[i].writeHullToFile();
 			}
 			System.out.println("---------------------------------------");
 
